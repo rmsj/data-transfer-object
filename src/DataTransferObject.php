@@ -16,6 +16,11 @@ abstract class DataTransferObject
     protected $onlyKeys = [];
 
     /**
+     * @var Interfaces\Cache Internal cache used to store resolved values.
+     */
+    protected $cache;
+
+    /**
      * @param array $parameters
      *
      * @return \Spatie\DataTransferObject\ImmutableDataTransferObject|static
@@ -28,6 +33,8 @@ abstract class DataTransferObject
     public function __construct(array $parameters = [])
     {
         $class = new ReflectionClass(static::class);
+        
+        $this->cache = $this->cache();
 
         $properties = $this->getPublicProperties($class);
 
@@ -140,9 +147,34 @@ abstract class DataTransferObject
         $properties = [];
 
         foreach ($class->getProperties(ReflectionProperty::IS_PUBLIC) as $reflectionProperty) {
-            $properties[$reflectionProperty->getName()] = Property::fromReflection($this, $reflectionProperty);
+            $properties[$reflectionProperty->getName()] =  $this->remember($$reflectionProperty->getName(), function() use ($reflectionProperty) {
+                return Property::fromReflection($this, $reflectionProperty);
+            });            
         }
 
         return $properties;
     }
+
+    /**
+     * @return Interfaces\Cache The cache instance to be used by this resolver.
+     */
+    protected function cache(): Interfaces\Cache
+    {
+        return new Cache();
+    }
+
+    /**
+     * @param string $property
+     * @param callable  $producer
+     *
+     * @return mixed The cached or otherwise produced value.
+     */
+    private function remember(string $property, callable $producer)
+    {
+        if ($this->cache->has($property) === false) {
+            $this->cache->set($property, $producer());
+        }
+
+        return $this->cache->get($property);
+    }    
 }
