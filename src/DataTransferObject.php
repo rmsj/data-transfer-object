@@ -147,7 +147,7 @@ abstract class DataTransferObject
         $properties = [];
 
         foreach ($class->getProperties(ReflectionProperty::IS_PUBLIC) as $reflectionProperty) {
-            $properties[$reflectionProperty->getName()] =  $this->remember($$reflectionProperty->getName(), function() use ($reflectionProperty) {
+            $properties[$reflectionProperty->getName()] =  $this->remember($reflectionProperty->getName(), function() use ($reflectionProperty) {
                 return Property::fromReflection($this, $reflectionProperty);
             });            
         }
