@@ -62,17 +62,17 @@ class Property extends ReflectionProperty
         $this->valueObject->{$this->getName()} = $value;
     }
 
-    public function getTypes(): array
+    public function getTypes()
     {
         return $this->types;
     }
 
-    public function getFqn(): string
+    public function getFqn()
     {
         return "{$this->getDeclaringClass()->getName()}::{$this->getName()}";
     }
 
-    public function isNullable(): bool
+    public function isNullable()
     {
         return $this->isNullable;
     }
@@ -109,7 +109,7 @@ class Property extends ReflectionProperty
         $this->isNullable = strpos($varDocComment, 'null') !== false;
     }
 
-    protected function isValidType($value): bool
+    protected function isValidType($value)
     {
         if (! $this->hasTypeDeclaration) {
             return true;
@@ -178,7 +178,7 @@ class Property extends ReflectionProperty
         return $casts;
     }
 
-    protected function shouldBeCastToCollection(array $values): bool
+    protected function shouldBeCastToCollection(array $values)
     {
         if (empty($values)) {
             return false;
@@ -197,7 +197,7 @@ class Property extends ReflectionProperty
         return true;
     }
 
-    protected function assertTypeEquals(string $type, $value): bool
+    protected function assertTypeEquals(string $type, $value)
     {
         if (strpos($type, '[]') !== false) {
             return $this->isValidArray($type, $value);
@@ -215,7 +215,7 @@ class Property extends ReflectionProperty
             || gettype($value) === (self::$typeMapping[$type] ?? $type);
     }
 
-    protected function isValidArray(string $type, $collection): bool
+    protected function isValidArray(string $type, $collection)
     {
         if (! is_array($collection)) {
             return false;
@@ -226,7 +226,7 @@ class Property extends ReflectionProperty
         return $this->isValidGenericCollection($valueType, $collection);
     }
 
-    protected function isValidIterable(string $type, $collection): bool
+    protected function isValidIterable(string $type, $collection)
     {
         if (! is_iterable($collection)) {
             return false;
@@ -239,7 +239,7 @@ class Property extends ReflectionProperty
         return true;
     }
 
-    protected function isValidGenericCollection(string $type, $collection): bool
+    protected function isValidGenericCollection(string $type, $collection)
     {
         foreach ($collection as $value) {
             if (! $this->assertTypeEquals($type, $value)) {

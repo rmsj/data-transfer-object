@@ -20,7 +20,7 @@ abstract class DataTransferObject
      *
      * @return \Spatie\DataTransferObject\ImmutableDataTransferObject|static
      */
-    public static function immutable(array $parameters = []): ImmutableDataTransferObject
+    public static function immutable(array $parameters = [])
     {
         return new ImmutableDataTransferObject(new static($parameters));
     }
@@ -52,7 +52,7 @@ abstract class DataTransferObject
         }
     }
 
-    public function all(): array
+    public function all()
     {
         $data = [];
 
@@ -72,7 +72,7 @@ abstract class DataTransferObject
      *
      * @return static
      */
-    public function only(string ...$keys): DataTransferObject
+    public function only(string ...$keys)
     {
         $valueObject = clone $this;
 
@@ -86,7 +86,7 @@ abstract class DataTransferObject
      *
      * @return static
      */
-    public function except(string ...$keys): DataTransferObject
+    public function except(string ...$keys)
     {
         $valueObject = clone $this;
 
@@ -95,7 +95,7 @@ abstract class DataTransferObject
         return $valueObject;
     }
 
-    public function toArray(): array
+    public function toArray()
     {
         if (count($this->onlyKeys)) {
             $array = Arr::only($this->all(), $this->onlyKeys);
@@ -108,7 +108,7 @@ abstract class DataTransferObject
         return $array;
     }
 
-    protected function parseArray(array $array): array
+    protected function parseArray(array $array)
     {
         foreach ($array as $key => $value) {
             if (
@@ -135,7 +135,7 @@ abstract class DataTransferObject
      *
      * @return array|\Spatie\DataTransferObject\Property[]
      */
-    protected function getPublicProperties(ReflectionClass $class): array
+    protected function getPublicProperties(ReflectionClass $class)
     {
         $properties = [];
 
