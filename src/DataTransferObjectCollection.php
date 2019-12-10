@@ -29,7 +29,7 @@ abstract class DataTransferObjectCollection implements
 
     public function offsetGet($offset)
     {
-        return $this->collection[$offset] ?? null;
+        return empty($this->collection[$offset]) ? null : $this->collection[$offset];
     }
 
     public function offsetSet($offset, $value)

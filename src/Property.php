@@ -210,7 +210,7 @@ class Property extends ReflectionProperty
         }
 
         return $value instanceof $type
-            || gettype($value) === (self::$typeMapping[$type] ?? $type);
+            || gettype($value) === (empty(self::$typeMapping[$type]) ? $type : self::$typeMapping[$type]);
     }
 
     protected function isValidArray(string $type, $collection)
