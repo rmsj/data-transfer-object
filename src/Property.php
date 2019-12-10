@@ -195,7 +195,7 @@ class Property extends ReflectionProperty
         return true;
     }
 
-    protected function assertTypeEquals(string $type, $value)
+    protected function assertTypeEquals($type, $value)
     {
         if (strpos($type, '[]') !== false) {
             return $this->isValidArray($type, $value);
@@ -213,7 +213,7 @@ class Property extends ReflectionProperty
             || gettype($value) === (empty(self::$typeMapping[$type]) ? $type : self::$typeMapping[$type]);
     }
 
-    protected function isValidArray(string $type, $collection)
+    protected function isValidArray($type, $collection)
     {
         if (! is_array($collection)) {
             return false;
@@ -224,7 +224,7 @@ class Property extends ReflectionProperty
         return $this->isValidGenericCollection($valueType, $collection);
     }
 
-    protected function isValidIterable(string $type, $collection)
+    protected function isValidIterable($type, $collection)
     {
         if (! is_iterable($collection)) {
             return false;
@@ -237,7 +237,7 @@ class Property extends ReflectionProperty
         return true;
     }
 
-    protected function isValidGenericCollection(string $type, $collection)
+    protected function isValidGenericCollection($type, $collection)
     {
         foreach ($collection as $value) {
             if (! $this->assertTypeEquals($type, $value)) {

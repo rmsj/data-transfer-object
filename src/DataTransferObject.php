@@ -70,7 +70,7 @@ abstract class DataTransferObject
      *
      * @return static
      */
-    public function only(string ...$keys)
+    public function only(...$keys)
     {
         $valueObject = clone $this;
 
@@ -84,7 +84,7 @@ abstract class DataTransferObject
      *
      * @return static
      */
-    public function except(string ...$keys)
+    public function except(...$keys)
     {
         $valueObject = clone $this;
 
